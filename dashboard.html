@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мой класс</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка -->
+        <header class="header">
+            <h1>Виртуальный класс</h1>
+            <div class="user-info">
+                <span id="userName"></span>
+                <a href="index.html" class="gc-button">Выйти</a>
+            </div>
+        </header>
+
+        <!-- Основное содержимое -->
+        <main class="main">
+            <h2 id="className"></h2>
+            <p id="subjectName"></p>
+
+            <div id="tasks">
+                <!-- Задания будут загружены через JS -->
+                <p>Загрузка заданий...</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/script.js"></script>
+    <script>
+        // При загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            if (!user) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Показываем имя пользователя
+            document.getElementById('userName').textContent = `Привет, ${user.username}!`;
+
+            // Загружаем данные класса
+            loadClassData();
+        });
+    </script>
+</body>
+</html>
