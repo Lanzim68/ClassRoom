@@ -8,13 +8,49 @@
 <body>
     <div class="login-container">
         <h2>Виртуальный класс</h2>
+
         <form id="loginForm">
-            <input type="text" id="username" placeholder="Логин" required>
+            <input type="text" id="username" placeholder="Логин (email)" required>
             <input type="password" id="password" placeholder="Пароль" required>
             <button type="submit">Войти</button>
         </form>
+
         <div id="errorMsg" class="error"></div>
+
+        <!-- Ссылка на регистрацию -->
+        <div class="register-link">
+            <p>Нет аккаунта?</p>
+            <a href="register-student.html" class="gc-button">Зарегистрироваться</a>
+        </div>
     </div>
+
     <script src="assets/script.js"></script>
+    <script>
+        // Обработка входа (существующий код)
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('php/login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                localStorage.setItem('user', JSON.stringify(result.user));
+                if (result.user.role === 'teacher') {
+                    window.location.href = 'teacher.html';
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
+            } else {
+                document.getElementById('errorMsg').textContent = result.message;
+            }
+        });
+    </script>
 </body>
 </html>
