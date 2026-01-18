@@ -1,0 +1,70 @@
+[
+  {
+    "id": "class1",
+    "name": "10-А класс",
+    "subject": "Информатика",
+    "teacher": "Иванов А.С.",
+    "students": [
+      {"id": 1, "name": "Петров Иван"},
+      {"id": 2, "name": "Сидорова Анна"},
+      {"id": 3, "name": "Козлов Дмитрий"}
+    ],
+    "tasks": [
+      {
+        "id": 101,
+        "title": "Создание веб‑страницы с HTML/CSS",
+        "description": "Разработайте простую веб‑страницу с заголовком, абзацем и стилями (цвет фона, шрифт, отступы). Используйте теги `<h1>`, `<p>`, `<div>`.",
+        "dueDate": "2025-05-15",
+        "createdAt": "2025-05-01",
+        "submissions": [
+          {"studentId": 1, "status": "submitted", "submittedAt": "2025-05-10"},
+          {"studentId": 2, "status": "pending"},
+          {"studentId": 3, "status": "late", "submittedAt": "2025-05-16"}
+        ]
+      },
+      {
+        "id": 102,
+        "title": "Алгоритм сортировки массива",
+        "description": "Напишите функцию на JavaScript, которая сортирует массив чисел по возрастанию (например, методом пузырька).",
+        "dueDate": "2025-05-20",
+        "createdAt": "2025-05-05",
+        "submissions": [
+          {"studentId": 1, "status": "pending"},
+          {"studentId": 2, "status": "submitted", "submittedAt": "2025-05-18"},
+          {"studentId": 3, "status": "pending"}
+        ]
+      },
+      {
+        "id": 103,
+        "title": "Презентация по кибербезопасности",
+        "description": "Подготовьте 5‑7 слайдов о видах киберугроз и способах защиты личных данных.",
+        "dueDate": "2025-05-25",
+        "createdAt": "2025-05-10",
+        "submissions": []
+      }
+    ]
+  },
+  {
+    "id": "class2",
+    "name": "9-Б класс",
+    "subject": "Литература",
+    "teacher": "Петрова М.И.",
+    "students": [
+      {"id": 4, "name": "Волкова Мария"},
+      {"id": 5, "name": "Никитин Алексей"}
+    ],
+    "tasks": [
+      {
+        "id": 201,
+        "title": "Анализ стихотворения Пушкина",
+        "description": "Выберите любое стихотворение А.С. Пушкина и напишите разбор (тема, идея, средства выразительности). Объём: 1–2 страницы.",
+        "dueDate": "2025-05-18",
+        "createdAt": "2025-05-03",
+        "submissions": [
+          {"studentId": 4, "status": "submitted", "submittedAt": "2025-05-17"},
+          {"studentId": 5, "status": "pending"}
+        ]
+      }
+    ]
+  }
+]
