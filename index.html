@@ -17,16 +17,19 @@
 
         <div id="errorMsg" class="error"></div>
 
-        <!-- Ссылка на регистрацию -->
-        <div class="register-link">
+        <!-- Блок с ссылками на регистрацию -->
+        <div class="register-links">
             <p>Нет аккаунта?</p>
-            <a href="register-student.html" class="gc-button">Зарегистрироваться</a>
+            <div class="register-buttons">
+                <a href="register-student.html" class="gc-button">Зарегистрироваться как ученик</a>
+                <a href="register-teacher.html" class="gc-button">Зарегистрироваться как преподаватель</a>
+            </div>
         </div>
     </div>
 
     <script src="assets/script.js"></script>
     <script>
-        // Обработка входа (существующий код)
+        // Обработка входа
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const username = document.getElementById('username').value;
@@ -42,15 +45,6 @@
 
             if (result.success) {
                 localStorage.setItem('user', JSON.stringify(result.user));
-                if (result.user.role === 'teacher') {
-                    window.location.href = 'teacher.html';
-                } else {
-                    window.location.href = 'dashboard.html';
-                }
-            } else {
-                document.getElementById('errorMsg').textContent = result.message;
-            }
-        });
-    </script>
-</body>
-</html>
+                if (result.user.role === 'admin') {
+                    window.location.href = 'admin.html';
+                } else if (result.user.role
