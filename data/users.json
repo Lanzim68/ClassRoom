@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "username": "student1",
+        "password": "pass123",
+        "role": "student",
+        "classId": "class1"
+    },
+    {
+        "id": 2,
+        "username": "teacher1",
+        "password": "teachpass",
+        "role": "teacher",
+        "classId": "class1"
+    }
+]
