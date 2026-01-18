@@ -30,21 +30,26 @@
 
     <script src="assets/script.js"></script>
     <script>
-        // При загрузке страницы
-        document.addEventListener('DOMContentLoaded', () => {
-            const user = JSON.parse(localStorage.getItem('user'));
+    document.addEventListener('DOMContentLoaded', () => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const classData = JSON.parse(localStorage.getItem('class'));
 
-            if (!user) {
-                window.location.href = 'index.html';
-                return;
-            }
+        if (!user) {
+            window.location.href = 'index.html';
+            return;
+        }
 
-            // Показываем имя пользователя
-            document.getElementById('userName').textContent = `Привет, ${user.username}!`;
+        // Показываем имя пользователя
+        document.getElementById('userName').textContent = `Привет, ${user.username}!`;
 
-            // Загружаем данные класса
-            loadClassData();
-        });
-    </script>
+        // Загружаем данные класса
+        if (classData) {
+            document.getElementById('className').textContent = classData.name;
+            document.getElementById('subjectName').textContent = classData.subject;
+            loadTasks(); // Загружаем задания
+        }
+    });
+</script>
+
 </body>
 </html>
