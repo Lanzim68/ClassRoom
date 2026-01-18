@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Панель учителя</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка -->
+        <header class="header">
+            <h1>Виртуальный класс — Панель учителя</h1>
+            <div class="user-info">
+                <span id="teacherName"></span>
+                <a href="index.html" class="gc-button">Выйти</a>
+            </div>
+        </header>
+
+        <!-- Основное содержимое -->
+        <main class="main">
+            <h2 id="className-teacher"></h2>
+            <p id="subjectName-teacher"></p>
+
+            <!-- Вкладки -->
+            <div class="tabs">
+                <button class="tab-button active" onclick="showTab('tasks')">Задания</button>
+                <button class="tab-button" onclick="showTab('students')">Ученики</button>
+                <button class="tab-button" onclick="showTab('analytics')">Аналитика</button>
+            </div>
+
+            <!-- Контент вкладок -->
+            <div id="tasks-tab" class="tab-content active">
+                <h3>Управление заданиями</h3>
+                <button class="gc-button" onclick="showAddTaskForm()">+ Добавить задание</button>
+
+                <div id="tasks-list">
+                    <!-- Список заданий подгружается через JS -->
+                    <p>Загрузка заданий...</p>
+                </div>
+            </div>
+
+            <div id="students-tab" class="tab-content">
+                <h3>Список учеников</h3>
+                <div id="students-list">
+                    <!-- Список учеников подгружается через JS -->
+                    <p>Загрузка учеников...</p>
+                </div>
+            </div>
+
+            <div id="analytics-tab" class="tab-content">
+                <h3>Аналитика выполнения</h3>
+                <canvas id="progressChart" width="400" height="200"></canvas>
+            </div>
+
+            <!-- Форма добавления задания (скрыта по умолчанию) -->
+            <div id="addTaskForm" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close" onclick="hideAddTaskForm()">&times;</span>
+                    <h3>Создать новое задание</h3>
+                    <form id="newTaskForm">
+                        <input type="text" id="taskTitle" placeholder="Название задания" required>
+                        <textarea id="taskDesc" placeholder="Описание задания" rows="4" required></textarea>
+                        <input type="date" id="dueDate" required>
+                        <button type="submit" class="gc-button">Создать</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Библиотеки для графиков -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="assets/script.js"></script>
+    <script>
+        // При загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            if (!user || user.role !== 'teacher') {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Показываем имя учителя
+            document.getElementById('teacherName').textContent = `Преподаватель: ${user.username}`;
+
+            // Загружаем данные класса
+            loadTeacherData();
+        });
+
+        // Переключение вкладок
+        function showTab(tabName) {
+            // Скрываем все вкладки
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Показываем выбранную
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+
+            // Обновляем стили кнопок
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Показать форму добавления задания
+        function showAddTaskForm() {
+            document.getElementById('addTaskForm').style.display = 'block';
+        }
+
+        // Скрыть форму
+        function hideAddTaskForm() {
+            document.getElementById('addTaskForm').style.display = 'none';
+        }
+
+        // Обработка отправки нового задания
+        document.getElementById('newTaskForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('taskTitle').value;
+            const desc = document.getElementById('taskDesc').value;
+            const dueDate = document.getElementById('dueDate').value;
+
+            const response = await fetch('php/add-task.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    classId: JSON.parse(localStorage.getItem('user')).classId,
+                    title,
+                    desc,
+                    dueDate
+                })
+            });
+
+            const result = await response.json();
+            alert(result.message);
+            hideAddTaskForm();
+            loadTeacherData(); // Обновляем список
+        });
+    </script>
+</body>
+</html>
