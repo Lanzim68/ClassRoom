@@ -39,25 +39,39 @@
     </div>
 
     <script>
-        document.getElementById('registerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(e.target);
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
 
-            const response = await fetch('php/register-student.php', {
-                method: 'POST',
-                body: formData
-            });
+    const response = await fetch('php/register-' + (e.target.id === 'teacherForm' ? 'teacher' : 'student') + '.php', {
+        method: 'POST',
+        body: formData
+    });
 
-            const result = await response.json();
-            const resultDiv = document.getElementById('result');
+    const result = await response.json();
+    const resultDiv = document.getElementById('result');
 
-            if (result.success) {
-                resultDiv.innerHTML = `<div class="success">${result.message}</div>`;
-                e.target.reset();
-            } else {
-                resultDiv.innerHTML = `<div class="error">${result.message}</div>`;
+    if (result.success) {
+        resultDiv.innerHTML = `<div class="success">${result.message}</div>`;
+        // Показываем таймер обратного отсчёта
+        let countdown = 5;
+        const countdownEl = document.createElement('div');
+        countdownEl.textContent = `Переход на вход через ${countdown} сек...`;
+        resultDiv.appendChild(countdownEl);
+
+        const interval = setInterval(() => {
+            countdown--;
+            countdownEl.textContent = `Переход на вход через ${countdown} сек...`;
+            if (countdown <= 0) {
+                clearInterval(interval);
+                window.location.href = result.redirect;
             }
-        });
-    </script>
+        }, 1000);
+    } else {
+        resultDiv.innerHTML = `<div class="error">${result.message}</div>`;
+    }
+});
+</script>
+
 </body>
 </html>
